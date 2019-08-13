@@ -7,18 +7,18 @@ const mongoose = require("mongoose");
 /**
  * Make database connection
  */
-// mongoose.connect(
-//   "mongodb+srv://collinsNjau:" +
-//     process.env.MONGO_PASSWORD +
-//     "@sms-management-andela-3wunv.mongodb.net/test?retryWrites=true&w=majority",
+mongoose.connect(
+  "mongodb+srv://collinsMuru:" +
+    process.env.MONGO_PASSWORD +
+    "@population-manager-9fbzo.mongodb.net/test?retryWrites=true&w=majority",
 
-//   { useNewUrlParser: true }
-// );
+  { useNewUrlParser: true }
+);
 
 /**
  * Use the default node js promise
  */
-// mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;
 
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
