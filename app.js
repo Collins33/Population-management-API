@@ -24,6 +24,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const locationRoutes = require("./api/routes/location");
 /**
  * Give access control
  * to any client
@@ -55,6 +56,8 @@ app.get("/", (req, res) => {
  * incoming request will
  * go through this
  */
+
+app.use("/api/v1/locations", locationRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
