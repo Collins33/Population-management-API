@@ -7,10 +7,29 @@ const Location = require("../models/location");
 
 exports.location_get_all = (req, res, next) => {
   Location.find()
+    .select("name femalePopulation malePopulation totalPopulation _id")
     .then(locations => {
-      res.status(200).json(locations);
+      const response = {
+        count: locations.length,
+        locations: locations.map(location => {
+          return {
+            name: location.name,
+            femalePopulation: location.femalePopulation,
+            malePopulation: location.malePopulation,
+            totalPopulation: location.totalPopulation,
+            _id: location._id,
+            request: {
+              type: "GET",
+              description: "Get single location",
+              url: "http://localhost:3000/api/v1/locations/" + location._id
+            }
+          };
+        })
+      };
+      res.status(200).json(response);
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({
         error: err
       });
@@ -38,7 +57,7 @@ exports.location_create = (req, res, next) => {
         request: {
           type: "GET",
           description: "Get the created location",
-          url: "http://localhost:3000/" + response._id
+          url: "http://localhost:3000/api/v1/locations/" + response._id
         }
       };
       res.status(200).json({
@@ -78,22 +97,25 @@ exports.location_get_one = (req, res, next) => {
     });
 };
 
-exports.location_patch_one = (req, res, next) => {
+exports.location_update_one = (req, res, next) => {
   const { locationId } = req.params;
-  const updateOps = {};
-  for (const ops of req.body) {
-    updateOps[ops.propsName] = ops.value;
-  }
-  Location.update({ _id: locationId }, { $set: updateOps })
-    .exec()
-    .then(result => {
-      res.status(200).json(result);
-    })
-    .catch(err => {
-      res.status(500).json({
-        error: err
+  Location.findById(locationId).then(location => {
+    (location.name = req.body.name || location.name),
+      (location.femalePopulation =
+        req.body.femalePopulation || location.femalePopulation);
+    (location.malePopulation =
+      req.body.malePopulation || location.malePopulation),
+      (location.totalPopulation =
+        parseInt(location.femalePopulation) +
+        parseInt(location.malePopulation));
+    location.save(function(err) {
+      if (err) throw err;
+      res.status(200).json({
+        message: "Location was saved successfully",
+        updatedLocation: location
       });
     });
+  });
 };
 
 exports.location_delete_one = (req, res, next) => {
