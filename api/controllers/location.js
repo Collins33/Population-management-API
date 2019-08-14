@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+const environment = process.env.ENVIRONMENT;
+let url;
+if (environment === "local") {
+  url = "http://localhost:3000";
+} else if (environment === "production") {
+  url = "https://population-control-33.herokuapp.com";
+}
+
 // import the population schema
 const Location = require("../models/location");
 
@@ -21,7 +29,7 @@ exports.location_get_all = (req, res, next) => {
             request: {
               type: "GET",
               description: "Get single location",
-              url: "http://localhost:3000/api/v1/locations/" + location._id
+              url: url + "/api/v1/locations/" + location._id
             }
           };
         })
@@ -57,7 +65,7 @@ exports.location_create = (req, res, next) => {
         request: {
           type: "GET",
           description: "Get the created location",
-          url: "http://localhost:3000/api/v1/locations/" + response._id
+          url: url + "/api/v1/locations/" + response._id
         }
       };
       res.status(200).json({
