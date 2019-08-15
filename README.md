@@ -25,13 +25,13 @@ The API provides a user a way to view a list of locations and the breakdown of t
 
 ## endpoints
 
-| Endpoint                              |            FUNCTIONALITY             |
-| ------------------------------------- | :----------------------------------: |
-| POST /api/v1/locations                |    This will create the location     |
-| GET /api/V1/locations                 |   This will get all the locations    |
-| GET /api/V1/locations/:locationId     | This will get an individual location |
-| PUT /api/V1/locations/:locationId     |  This will edit a specific location  |
-| DELETE /api/V1//locations/:locationId |     This will delete a location      |
+| Endpoint                             |            FUNCTIONALITY             |
+| ------------------------------------ | :----------------------------------: |
+| POST /api/v1/locations               |    This will create the location     |
+| GET /api/V1/locations                |   This will get all the locations    |
+| GET /api/V1/locations/:locationId    | This will get an individual location |
+| PUT /api/V1/locations/:locationId    |  This will edit a specific location  |
+| DELETE /api/V1/locations/:locationId |     This will delete a location      |
 
 ## Built With
 
