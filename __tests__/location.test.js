@@ -29,6 +29,7 @@ describe("Population management", () => {
         .request(app)
         .get("/api/v1/locations/")
         .end((req, res) => {
+          console.log(res, "<<><><<><><");
           expect(res).to.have.status(200);
           done();
         });
