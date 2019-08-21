@@ -10,7 +10,7 @@ require("dotenv").config();
  */
 const environment = process.env.ENVIRONMENT;
 
-if (environment === "local") {
+if (environment === "local" || environment === "production") {
   mongoose.connect(
     "mongodb+srv://collinsMuru:" +
       process.env.MONGO_PASSWORD +
