@@ -5,18 +5,28 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const mongoPassword = process.env.MONGO_PASSWORD;
-console.log(mongoPassword);
 /**
  * Make database connection
  */
-mongoose.connect(
-  "mongodb+srv://collinsMuru:" +
-    process.env.MONGO_PASSWORD +
-    "@population-manager-9fbzo.mongodb.net/test?retryWrites=true&w=majority",
+const environment = process.env.ENVIRONMENT;
 
-  { useNewUrlParser: true }
-);
+if (environment === "local") {
+  mongoose.connect(
+    "mongodb+srv://collinsMuru:" +
+      process.env.MONGO_PASSWORD +
+      "@population-manager-9fbzo.mongodb.net/test?retryWrites=true&w=majority",
+
+    { useNewUrlParser: true }
+  );
+} else if (environment === "testing") {
+  mongoose.connect(
+    "mongodb+srv://collinsMuru:" +
+      process.env.MONGO_PASSWORD +
+      "@population-management-test-rpbhx.mongodb.net/test?retryWrites=true&w=majority",
+
+    { useNewUrlParser: true }
+  );
+}
 
 /**
  * Use the default node js promise
