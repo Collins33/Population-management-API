@@ -8,3 +8,4 @@ script:
 
 after_script:
   - npm install coveralls && npm run coverage
+  - ./cc-test-reporter after-build --exit-code $REPO_TOKEN
