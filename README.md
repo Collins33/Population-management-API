@@ -1,5 +1,7 @@
 # Poulation-Management-API
 
+[![Build Status](https://travis-ci.org/Collins33/Population-management-API.svg?branch=develop)](https://travis-ci.org/Collins33/Population-management-API)
+
 Population management API
 The API provides a user a way to view a list of locations and the breakdown of the population based on gender.
 
@@ -32,6 +34,33 @@ The API provides a user a way to view a list of locations and the breakdown of t
 | GET /api/V1/locations/:locationId    | This will get an individual location |
 | PUT /api/V1/locations/:locationId    |  This will edit a specific location  |
 | DELETE /api/V1/locations/:locationId |     This will delete a location      |
+
+## MAKING A POST REQUEST ON POSTMAN
+
+```
+Payload
+{
+  "name": "Nairobi",
+  "femalePopulation": 400000,
+  "malePopulation": 40000,
+}
+Response
+{
+    "message": "Location was created",
+    "createdLocation": {
+        "name": "Nairobi",
+        "femalePopulation": 400000,
+        "malePopulation": 40000,
+        "totalPopulation": 440000,
+        "_id": "5d5e53bf0060d20004bb3806",
+        "request": {
+            "type": "GET",
+            "description": "Get the created location",
+            "url": "https://population-control-33.herokuapp.com/api/v1/locations/5d5e53bf0060d20004bb3806"
+        }
+    }
+}
+```
 
 ## Built With
 
