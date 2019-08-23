@@ -131,6 +131,33 @@ describe("Population management", () => {
     });
   });
 
+  describe("/PUT -Edit missing location", () => {
+    it("should return 404 message if the location does not exist", done => {
+      const newLocation = {
+        name: "Thika",
+        femalePopulation: "600",
+        malePopulation: "600"
+      };
+      const newLocationData = {
+        femalePopulation: "6000"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/locations/")
+        .send(newLocation)
+        .end((err, res) => {
+          chai
+            .request(app)
+            .put("/api/v1/locations/5d53f0a2465b148903a783b0")
+            .send(newLocationData)
+            .end((err, res) => {
+              expect(res).to.have.status(404);
+              done();
+            });
+        });
+    });
+  });
+
   describe("/PUT -Edit location error", () => {
     it("should not edit if location name exists", done => {
       const newLocation = {
@@ -178,6 +205,32 @@ describe("Population management", () => {
             .delete("/api/v1/locations/" + res.body.createdLocation._id)
             .end((err, res) => {
               expect(res).to.have.status(200);
+              done();
+            });
+        });
+    });
+  });
+
+  describe("/DELETE -Delete a location that does not exist", () => {
+    it("should return 404 if the location does not exist", done => {
+      const newLocation = {
+        name: "Thika",
+        femalePopulation: "600",
+        malePopulation: "600"
+      };
+      const newLocationData = {
+        femalePopulation: "6000"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/locations/")
+        .send(newLocation)
+        .end((err, res) => {
+          chai
+            .request(app)
+            .delete("/api/v1/locations/5d53f0a2465b148903a783b0")
+            .end((err, res) => {
+              expect(res).to.have.status(404);
               done();
             });
         });

@@ -14,10 +14,15 @@ router.get("/:locationId", LocationController.location_get_one);
 
 router.put(
   "/:locationId",
+  middleware.checkMissingLocation,
   middleware.checkUniqueName,
   LocationController.location_update_one
 );
 
-router.delete("/:locationId", LocationController.location_delete_one);
+router.delete(
+  "/:locationId",
+  middleware.checkMissingLocation,
+  LocationController.location_delete_one
+);
 
 module.exports = router;

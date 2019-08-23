@@ -48,3 +48,23 @@ exports.checkEmtyInput = (req, res, next) => {
     next();
   }
 };
+
+/**
+ * @method checkMissingLocation
+ * @summary - ensures the location exists
+ * @param request body, response body
+ * @returns json message
+ */
+
+exports.checkMissingLocation = (req, res, next) => {
+  const { locationId } = req.params;
+  Location.findById(locationId).then(location => {
+    if (!location) {
+      res.status(404).json({
+        message: "The location does not exist"
+      });
+    } else {
+      next();
+    }
+  });
+};
