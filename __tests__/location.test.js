@@ -57,7 +57,7 @@ describe("Population management", () => {
     });
   });
 
-  describe("/POST -Add location error", () => {
+  describe("/POST -Add duplicate location error", () => {
     it("should not post a new location twice", done => {
       const newLocation = {
         name: "Kiambu",
@@ -82,6 +82,24 @@ describe("Population management", () => {
               expect(res).to.have.status(500);
               done();
             });
+        });
+    });
+  });
+
+  describe("/POST -Add location with empty data", () => {
+    it("should return an error message when the data is empty", done => {
+      const newLocation = {
+        name: "   ",
+        femalePopulation: "600",
+        malePopulation: "600"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/locations/")
+        .send(newLocation)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          done();
         });
     });
   });
