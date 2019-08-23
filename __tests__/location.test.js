@@ -57,6 +57,35 @@ describe("Population management", () => {
     });
   });
 
+  describe("/POST -Add location error", () => {
+    it("should not post a new location twice", done => {
+      const newLocation = {
+        name: "Kiambu",
+        femalePopulation: "600",
+        malePopulation: "600"
+      };
+      const secondLocation = {
+        name: "Kiambu",
+        femalePopulation: "600",
+        malePopulation: "600"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/locations/")
+        .send(newLocation)
+        .end(() => {
+          chai
+            .request(app)
+            .post("/api/v1/locations/")
+            .send(secondLocation)
+            .end((err, res) => {
+              expect(res).to.have.status(500);
+              done();
+            });
+        });
+    });
+  });
+
   describe("/PUT -Edit location", () => {
     it("should edit an existing location", done => {
       const newLocation = {
@@ -78,6 +107,33 @@ describe("Population management", () => {
             .send(newLocationData)
             .end((err, res) => {
               expect(res).to.have.status(200);
+              done();
+            });
+        });
+    });
+  });
+
+  describe("/PUT -Edit location error", () => {
+    it("should not edit if location name exists", done => {
+      const newLocation = {
+        name: "Thika",
+        femalePopulation: "600",
+        malePopulation: "600"
+      };
+      const newLocationData = {
+        name: "Thika"
+      };
+      chai
+        .request(app)
+        .post("/api/v1/locations/")
+        .send(newLocation)
+        .end((err, res) => {
+          chai
+            .request(app)
+            .put("/api/v1/locations/" + res.body.createdLocation._id)
+            .send(newLocationData)
+            .end((err, res) => {
+              expect(res).to.have.status(500);
               done();
             });
         });
