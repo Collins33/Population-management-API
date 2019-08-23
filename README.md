@@ -18,12 +18,27 @@ The API provides a user a way to view a list of locations and the breakdown of t
 - ensure the IP security settings allow connctions from everywhere
 - copy the connection url given to you.
 - create nodemon.json file
-- add the password given to you.
-- "MONGO_PASSWORD": "xxxxxxxxxxxx"
+- add the database connection given to you
+
+```
+  "MONGO_DATABASE_URL": "database url given"
+```
 
 ## Starting the application
 
 - run `npm start`
+
+## Running the tests
+
+- create test database on mongo atlas
+- ensure the IP security settings allow connctions from everywhere
+- save the database url given
+
+```
+"MONGO_DATABASE_TEST_URL":"test database url given"
+```
+
+- run `npm test`
 
 ## endpoints
 

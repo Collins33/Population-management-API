@@ -9,23 +9,12 @@ require("dotenv").config();
  * Make database connection
  */
 const environment = process.env.ENVIRONMENT;
-
 if (environment === "local" || environment === "production") {
-  mongoose.connect(
-    "mongodb+srv://collinsMuru:" +
-      process.env.MONGO_PASSWORD +
-      "@population-manager-9fbzo.mongodb.net/test?retryWrites=true&w=majority",
-
-    { useNewUrlParser: true }
-  );
+  mongoose.connect(process.env.MONGO_DATABASE_URL, { useNewUrlParser: true });
 } else if (environment === "testing") {
-  mongoose.connect(
-    "mongodb+srv://collinsMuru:" +
-      process.env.MONGO_PASSWORD +
-      "@population-management-test-rpbhx.mongodb.net/test?retryWrites=true&w=majority",
-
-    { useNewUrlParser: true }
-  );
+  mongoose.connect(process.env.MONGO_DATABASE_TEST_URL, {
+    useNewUrlParser: true
+  });
 }
 
 /**
