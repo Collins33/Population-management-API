@@ -13,10 +13,6 @@ const environment = process.env.ENVIRONMENT;
 if (environment === "local" || environment === "production") {
   mongoose.connect(process.env.MONGO_DATABASE_URL, { useNewUrlParser: true });
 } else if (environment === "testing") {
-  console.log(
-    process.env.MONGO_DATABASE_TEST_URL,
-    "<><><><><><><><><>gkdfgfkgskgfkdsk<><><><>"
-  );
   mongoose.connect(process.env.MONGO_DATABASE_TEST_URL, {
     useNewUrlParser: true
   });
