@@ -43,7 +43,6 @@ exports.location_get_all = (req, res, next) => {
       res.status(200).json(response);
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({
         error: err
       });
@@ -118,7 +117,6 @@ exports.location_get_one = (req, res, next) => {
       }
     })
     .catch(error => {
-      console.log(error);
       res.status(500).json({ error: error });
     });
 };

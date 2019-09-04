@@ -1,5 +1,6 @@
 const express = require("express");
 const Location = require("../models/location");
+const User = require("../models/user");
 
 /**
  * @method checkUniqueName
@@ -62,6 +63,26 @@ exports.checkMissingLocation = (req, res, next) => {
     if (!location) {
       res.status(404).json({
         message: "The location does not exist"
+      });
+    } else {
+      next();
+    }
+  });
+};
+
+/**
+ * @method checkExistingEmail
+ * @summary - ensures the email is unique
+ * @param request body, response body
+ * @returns json message
+ */
+
+exports.checkExistingEmail = (req, res, next) => {
+  const RequestEmail = req.body.email;
+  User.findOne({ email: RequestEmail }).then(user => {
+    if (user) {
+      res.status(422).json({
+        message: "The email already exists"
       });
     } else {
       next();
