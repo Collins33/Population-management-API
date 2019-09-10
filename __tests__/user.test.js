@@ -66,4 +66,34 @@ describe("User authentication", () => {
         done();
       });
   });
+
+  it("should return an error if the values are missing", done => {
+    const user = {
+      email: "",
+      password: "kamwangi222"
+    };
+    chai
+      .request(app)
+      .post("/api/v1/users/signup")
+      .send(user)
+      .end((err, res) => {
+        expect(res).to.have.status(422);
+        done();
+      });
+  });
+
+  it("should return an error if the password is short", done => {
+    const user = {
+      email: "king.batch@andela.com",
+      password: "123"
+    };
+    chai
+      .request(app)
+      .post("/api/v1/users/signup")
+      .send(user)
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
 });

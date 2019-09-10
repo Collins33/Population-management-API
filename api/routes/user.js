@@ -6,6 +6,7 @@ const middleware = require("../middleware/middleware");
 router.get("/", userController.users_get_all);
 router.post(
   "/signup",
+  middleware.checkEmptyUserCredentials,
   middleware.checkExistingEmail,
   userController.user_sign_up
 );

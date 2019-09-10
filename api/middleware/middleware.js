@@ -89,3 +89,27 @@ exports.checkExistingEmail = (req, res, next) => {
     }
   });
 };
+
+/**
+ * @method checkEmptyUserCredentials
+ * @summary - ensures all the user credentials are valid
+ * @param request body, response body
+ * @returns json message
+ */
+
+exports.checkEmptyUserCredentials = (req, res, next) => {
+  const password = req.body.password.trim();
+  const email = req.body.email.trim();
+
+  if (password.length <= 0 || email.length <= 0) {
+    res.status(422).json({
+      message: "User credentials cannot be empty"
+    });
+  } else if (password.length < 6) {
+    res.status(400).json({
+      message: "The length of the password is too short"
+    });
+  } else {
+    next();
+  }
+};
