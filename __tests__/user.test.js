@@ -96,4 +96,75 @@ describe("User authentication", () => {
         done();
       });
   });
+
+  it("should return 200 when logging in with correct credentials", done => {
+    const user = {
+      email: "collins.muru@andela.com",
+      password: "partyTime"
+    };
+    chai
+      .request(app)
+      .post("/api/v1/users/signup")
+      .send(user)
+      .end(() => {
+        chai
+          .request(app)
+          .post("/api/v1/users/login")
+          .send(user)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            done();
+          });
+      });
+  });
+
+  it("should return an error if email does not exist when loggin in", done => {
+    const user = {
+      email: "collins.muru@andela.com",
+      password: "partyTime"
+    };
+    const secondUser = {
+      email: "collins.muru10@andela.com",
+      password: "partyTime"
+    };
+    chai
+      .request(app)
+      .post("/api/v1/users/signup")
+      .send(user)
+      .end(() => {
+        chai
+          .request(app)
+          .post("/api/v1/users/login")
+          .send(secondUser)
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            done();
+          });
+      });
+  });
+
+  it("should return an error message for wrong password", done => {
+    const user = {
+      email: "collins.muru@andela.com",
+      password: "partyTime"
+    };
+    const secondUser = {
+      email: "collins.muru@andela.com",
+      password: "partyTime300"
+    };
+    chai
+      .request(app)
+      .post("/api/v1/users/signup")
+      .send(user)
+      .end(() => {
+        chai
+          .request(app)
+          .post("/api/v1/users/login")
+          .send(secondUser)
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            done();
+          });
+      });
+  });
 });
