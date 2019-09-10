@@ -167,4 +167,25 @@ describe("User authentication", () => {
           });
       });
   });
+
+  it("should return an error if login credentials are empty", done => {
+    const user = {
+      email: "",
+      password: ""
+    };
+    chai
+      .request(app)
+      .post("/api/v1/users/signup")
+      .send(user)
+      .end(() => {
+        chai
+          .request(app)
+          .post("/api/v1/users/login")
+          .send(user)
+          .end((err, res) => {
+            expect(res).to.have.status(422);
+            done();
+          });
+      });
+  });
 });

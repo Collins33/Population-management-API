@@ -82,11 +82,6 @@ exports.user_login = (req, res, next) => {
   User.find({ email: email })
     .exec()
     .then(user => {
-      if (user.length < 1) {
-        return res.status(401).json({
-          message: "Auth failed"
-        });
-      }
       const userPassword = user[0].password;
       bycrypt.compare(password, userPassword, (err, result) => {
         if (err) {
@@ -107,7 +102,6 @@ exports.user_login = (req, res, next) => {
               expiresIn: "1h"
             }
           );
-
           return res.status(200).json({
             message: "Auth successful",
             token: token

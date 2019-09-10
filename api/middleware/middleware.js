@@ -113,3 +113,41 @@ exports.checkEmptyUserCredentials = (req, res, next) => {
     next();
   }
 };
+
+/**
+ * @method validateLoginCredentialsInput
+ * @summary - ensures all the user credentials are valid
+ * @param request body, response body
+ * @returns json message
+ */
+exports.validateLoginCredentialsInput = (req, res, next) => {
+  const password = req.body.password.trim();
+  const email = req.body.email.trim();
+
+  if (password.length <= 0 || email.length <= 0) {
+    res.status(422).json({
+      message: "User credentials cannot be empty"
+    });
+  } else {
+    next();
+  }
+};
+
+/**
+ * @method validateLoginUser
+ * @summary - ensures all the user credentials are valid
+ * @param request body, response body
+ * @returns json message
+ */
+exports.validateLoginUser = (req, res, next) => {
+  const email = req.body.email;
+  User.findOne({ email: email }).then(user => {
+    if (!user) {
+      res.status(401).json({
+        message: "Auth failed"
+      });
+    } else {
+      next();
+    }
+  });
+};

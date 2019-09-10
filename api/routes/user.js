@@ -11,6 +11,11 @@ router.post(
   userController.user_sign_up
 );
 
-router.post("/login", userController.user_login);
+router.post(
+  "/login",
+  middleware.validateLoginCredentialsInput,
+  middleware.validateLoginUser,
+  userController.user_login
+);
 
 module.exports = router;
