@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const bycrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const jtw_generator = require("../utils/tokenGenerator");
 
 const jwt_key = process.env.JWT_KEY;
 const environment = process.env.ENVIRONMENT;
@@ -91,17 +92,7 @@ exports.user_login = (req, res, next) => {
         }
         // returns true if the comparison is fine
         if (result) {
-          // generate token that expires after 1h
-          const token = jwt.sign(
-            {
-              email: user[0].email,
-              userId: user[0]._id
-            },
-            jwt_key,
-            {
-              expiresIn: "1h"
-            }
-          );
+          const token = jtw_generator(user, jwt_key);
           return res.status(200).json({
             message: "Auth successful",
             token: token
