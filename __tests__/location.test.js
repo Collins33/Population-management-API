@@ -29,12 +29,30 @@ describe("Population management", () => {
 
   describe("/GET Population routes", () => {
     it("should show a list of populations", done => {
+      const user = {
+        email: "collins.muru@andela.com",
+        password: "partyTime"
+      };
       chai
         .request(app)
-        .get("/api/v1/locations/")
-        .end((req, res) => {
-          expect(res).to.have.status(200);
-          done();
+        .post("/api/v1/users/signup")
+        .send(user)
+        .end(() => {
+          chai
+            .request(app)
+            .post("/api/v1/users/login")
+            .send(user)
+            .end((err, res) => {
+              userToken = res.body.token;
+              chai
+                .request(app)
+                .get("/api/v1/locations/")
+                .set("authorization", "Bearer " + userToken)
+                .end((req, res) => {
+                  expect(res).to.have.status(200);
+                  done();
+                });
+            });
         });
     });
   });

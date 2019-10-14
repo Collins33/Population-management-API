@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const LocationController = require("../controllers/location");
 const middleware = require("../middleware/middleware");
+const authController = require("../middleware/auth");
 
-router.get("/", LocationController.location_get_all);
+router.get("/", authController.checkAuth, LocationController.location_get_all);
 router.post(
   "/",
   middleware.checkEmtyInput,
