@@ -3,6 +3,8 @@ const Location = require("../api/models/location");
 const app = require("../app");
 const chai = require("chai");
 const supertest = require("supertest");
+const tokenGenerator = require("../api/utils/tokenGenerator");
+const jwt_key = process.env.JWT_KEY;
 const expect = chai.expect;
 const chaiHttp = require("chai-http");
 chai.use(chaiHttp);
@@ -27,32 +29,22 @@ describe("Population management", () => {
     });
   });
 
-  describe("/GET Population routes", () => {
-    it("should show a list of populations", done => {
-      const user = {
-        email: "collins.muru@andela.com",
-        password: "partyTime"
-      };
+  describe("/GET should get a list of locations", () => {
+    it("should show a list of location populations", done => {
+      const user = [
+        {
+          email: "collins.muru@andela.com",
+          _id: "partyTime"
+        }
+      ];
+      const token = tokenGenerator(user, jwt_key);
       chai
         .request(app)
-        .post("/api/v1/users/signup")
-        .send(user)
-        .end(() => {
-          chai
-            .request(app)
-            .post("/api/v1/users/login")
-            .send(user)
-            .end((err, res) => {
-              userToken = res.body.token;
-              chai
-                .request(app)
-                .get("/api/v1/locations/")
-                .set("authorization", "Bearer " + userToken)
-                .end((req, res) => {
-                  expect(res).to.have.status(200);
-                  done();
-                });
-            });
+        .get("/api/v1/locations/")
+        .set("authorization", "Bearer " + token)
+        .end((req, res) => {
+          expect(res).to.have.status(200);
+          done();
         });
     });
   });
